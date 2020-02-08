@@ -1,8 +1,8 @@
 package com.infy.web.rest;
 
+import com.infy.domain.Turnstile;
 import com.infy.service.TurnstileService;
 import com.infy.web.rest.errors.BadRequestAlertException;
-import com.infy.service.dto.TurnstileDTO;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -42,17 +42,17 @@ public class TurnstileResource {
     /**
      * {@code POST  /turnstiles} : Create a new turnstile.
      *
-     * @param turnstileDTO the turnstileDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new turnstileDTO, or with status {@code 400 (Bad Request)} if the turnstile has already an ID.
+     * @param turnstile the turnstile to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new turnstile, or with status {@code 400 (Bad Request)} if the turnstile has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/turnstiles")
-    public ResponseEntity<TurnstileDTO> createTurnstile(@Valid @RequestBody TurnstileDTO turnstileDTO) throws URISyntaxException {
-        log.debug("REST request to save Turnstile : {}", turnstileDTO);
-        if (turnstileDTO.getId() != null) {
+    public ResponseEntity<Turnstile> createTurnstile(@Valid @RequestBody Turnstile turnstile) throws URISyntaxException {
+        log.debug("REST request to save Turnstile : {}", turnstile);
+        if (turnstile.getId() != null) {
             throw new BadRequestAlertException("A new turnstile cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        TurnstileDTO result = turnstileService.save(turnstileDTO);
+        Turnstile result = turnstileService.save(turnstile);
         return ResponseEntity.created(new URI("/api/turnstiles/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -61,21 +61,21 @@ public class TurnstileResource {
     /**
      * {@code PUT  /turnstiles} : Updates an existing turnstile.
      *
-     * @param turnstileDTO the turnstileDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated turnstileDTO,
-     * or with status {@code 400 (Bad Request)} if the turnstileDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the turnstileDTO couldn't be updated.
+     * @param turnstile the turnstile to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated turnstile,
+     * or with status {@code 400 (Bad Request)} if the turnstile is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the turnstile couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/turnstiles")
-    public ResponseEntity<TurnstileDTO> updateTurnstile(@Valid @RequestBody TurnstileDTO turnstileDTO) throws URISyntaxException {
-        log.debug("REST request to update Turnstile : {}", turnstileDTO);
-        if (turnstileDTO.getId() == null) {
+    public ResponseEntity<Turnstile> updateTurnstile(@Valid @RequestBody Turnstile turnstile) throws URISyntaxException {
+        log.debug("REST request to update Turnstile : {}", turnstile);
+        if (turnstile.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        TurnstileDTO result = turnstileService.save(turnstileDTO);
+        Turnstile result = turnstileService.save(turnstile);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, turnstileDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, turnstile.getId().toString()))
             .body(result);
     }
 
@@ -86,7 +86,7 @@ public class TurnstileResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of turnstiles in body.
      */
     @GetMapping("/turnstiles")
-    public List<TurnstileDTO> getAllTurnstiles() {
+    public List<Turnstile> getAllTurnstiles() {
         log.debug("REST request to get all Turnstiles");
         return turnstileService.findAll();
     }
@@ -94,20 +94,20 @@ public class TurnstileResource {
     /**
      * {@code GET  /turnstiles/:id} : get the "id" turnstile.
      *
-     * @param id the id of the turnstileDTO to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the turnstileDTO, or with status {@code 404 (Not Found)}.
+     * @param id the id of the turnstile to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the turnstile, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/turnstiles/{id}")
-    public ResponseEntity<TurnstileDTO> getTurnstile(@PathVariable Long id) {
+    public ResponseEntity<Turnstile> getTurnstile(@PathVariable Long id) {
         log.debug("REST request to get Turnstile : {}", id);
-        Optional<TurnstileDTO> turnstileDTO = turnstileService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(turnstileDTO);
+        Optional<Turnstile> turnstile = turnstileService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(turnstile);
     }
 
     /**
      * {@code DELETE  /turnstiles/:id} : delete the "id" turnstile.
      *
-     * @param id the id of the turnstileDTO to delete.
+     * @param id the id of the turnstile to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/turnstiles/{id}")

@@ -48,7 +48,7 @@
     ],
     "changelogDate": "20200208141757",
     "entityTableName": "zone",
-    "dto": "mapstruct",
+    "dto": "no",
     "pagination": "no",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,

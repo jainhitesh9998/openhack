@@ -42,6 +42,9 @@ public class CacheConfiguration {
             createCache(cm, com.infy.domain.User.class.getName());
             createCache(cm, com.infy.domain.Authority.class.getName());
             createCache(cm, com.infy.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.infy.domain.Turnstile.class.getName());
+            createCache(cm, com.infy.domain.Camera.class.getName());
+            createCache(cm, com.infy.domain.Zone.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

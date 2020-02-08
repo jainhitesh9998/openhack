@@ -1,0 +1,112 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-turnstile-heading">Create or edit a Turnstile</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id').value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_identifier">Identifier</label>
+                    <input type="text" class="form-control" name="identifier" id="field_identifier"
+                           formControlName="identifier"/>
+                    <div *ngIf="editForm.get('identifier').invalid && (editForm.get('identifier').dirty || editForm.get('identifier').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('identifier').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_turnstileId">Turnstile Id</label>
+                    <input type="text" class="form-control" name="turnstileId" id="field_turnstileId"
+                           formControlName="turnstileId"/>
+                    <div *ngIf="editForm.get('turnstileId').invalid && (editForm.get('turnstileId').dirty || editForm.get('turnstileId').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('turnstileId').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_androidThingsInId">Android Things In Id</label>
+                    <input type="text" class="form-control" name="androidThingsInId" id="field_androidThingsInId"
+                           formControlName="androidThingsInId"/>
+                    <div *ngIf="editForm.get('androidThingsInId').invalid && (editForm.get('androidThingsInId').dirty || editForm.get('androidThingsInId').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('androidThingsInId').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_androidThingsOutId">Android Things Out Id</label>
+                    <input type="text" class="form-control" name="androidThingsOutId" id="field_androidThingsOutId"
+                           formControlName="androidThingsOutId"/>
+                    <div *ngIf="editForm.get('androidThingsOutId').invalid && (editForm.get('androidThingsOutId').dirty || editForm.get('androidThingsOutId').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('androidThingsOutId').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_created">Created</label>
+                    <div class="d-flex">
+                        <input id="field_created" type="datetime-local" class="form-control" name="created" formControlName="created" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                    <div *ngIf="editForm.get('created').invalid && (editForm.get('created').dirty || editForm.get('created').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('created').errors.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('created').errors?.ZonedDateTimelocal">
+                            This field should be a date and time.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_zoneIn">Zone In</label>
+                    <select class="form-control" id="field_zoneIn" name="zoneIn" formControlName="zoneIn">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="zoneOption.id === editForm.get('zoneIn').value?.id ? editForm.get('zoneIn').value : zoneOption" *ngFor="let zoneOption of zoneins; trackBy: trackZoneById">{{zoneOption.id}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_zoneOut">Zone Out</label>
+                    <select class="form-control" id="field_zoneOut" name="zoneOut" formControlName="zoneOut">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="zoneOption.id === editForm.get('zoneOut').value?.id ? editForm.get('zoneOut').value : zoneOption" *ngFor="let zoneOption of zoneouts; trackBy: trackZoneById">{{zoneOption.id}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_cameraIn">Camera In</label>
+                    <select class="form-control" id="field_cameraIn" name="cameraIn" formControlName="cameraIn">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="cameraOption.id === editForm.get('cameraIn').value?.id ? editForm.get('cameraIn').value : cameraOption" *ngFor="let cameraOption of camerains; trackBy: trackCameraById">{{cameraOption.id}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_cameraOut">Camera Out</label>
+                    <select class="form-control" id="field_cameraOut" name="cameraOut" formControlName="cameraOut">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="cameraOption.id === editForm.get('cameraOut').value?.id ? editForm.get('cameraOut').value : cameraOption" *ngFor="let cameraOption of cameraouts; trackBy: trackCameraById">{{cameraOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

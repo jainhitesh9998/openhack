@@ -1,0 +1,67 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="turnstile">
+            <h2><span>Turnstile</span> {{turnstile.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Identifier</span></dt>
+                <dd>
+                    <span>{{turnstile.identifier}}</span>
+                </dd>
+                <dt><span>Turnstile Id</span></dt>
+                <dd>
+                    <span>{{turnstile.turnstileId}}</span>
+                </dd>
+                <dt><span>Android Things In Id</span></dt>
+                <dd>
+                    <span>{{turnstile.androidThingsInId}}</span>
+                </dd>
+                <dt><span>Android Things Out Id</span></dt>
+                <dd>
+                    <span>{{turnstile.androidThingsOutId}}</span>
+                </dd>
+                <dt><span>Created</span></dt>
+                <dd>
+                    <span>{{turnstile.created}}</span>
+                </dd>
+                <dt><span>Zone In</span></dt>
+                <dd>
+                    <div *ngIf="turnstile.zoneIn">
+                        <a [routerLink]="['/zone', turnstile.zoneIn?.id, 'view']">{{turnstile.zoneIn?.id}}</a>
+                    </div>
+                </dd>
+                <dt><span>Zone Out</span></dt>
+                <dd>
+                    <div *ngIf="turnstile.zoneOut">
+                        <a [routerLink]="['/zone', turnstile.zoneOut?.id, 'view']">{{turnstile.zoneOut?.id}}</a>
+                    </div>
+                </dd>
+                <dt><span>Camera In</span></dt>
+                <dd>
+                    <div *ngIf="turnstile.cameraIn">
+                        <a [routerLink]="['/camera', turnstile.cameraIn?.id, 'view']">{{turnstile.cameraIn?.id}}</a>
+                    </div>
+                </dd>
+                <dt><span>Camera Out</span></dt>
+                <dd>
+                    <div *ngIf="turnstile.cameraOut">
+                        <a [routerLink]="['/camera', turnstile.cameraOut?.id, 'view']">{{turnstile.cameraOut?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/turnstile', turnstile.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -73,7 +73,7 @@
     ],
     "changelogDate": "20200208141755",
     "entityTableName": "turnstile",
-    "dto": "mapstruct",
+    "dto": "no",
     "pagination": "no",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,

@@ -19,7 +19,7 @@
     "relationships": [],
     "changelogDate": "20200208141756",
     "entityTableName": "camera",
-    "dto": "mapstruct",
+    "dto": "no",
     "pagination": "no",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,

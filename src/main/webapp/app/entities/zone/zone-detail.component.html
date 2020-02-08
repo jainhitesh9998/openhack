@@ -1,0 +1,49 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="zone">
+            <h2><span>Zone</span> {{zone.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Identifier</span></dt>
+                <dd>
+                    <span>{{zone.identifier}}</span>
+                </dd>
+                <dt><span>X 1</span></dt>
+                <dd>
+                    <span>{{zone.x1}}</span>
+                </dd>
+                <dt><span>Y 1</span></dt>
+                <dd>
+                    <span>{{zone.y1}}</span>
+                </dd>
+                <dt><span>X 2</span></dt>
+                <dd>
+                    <span>{{zone.x2}}</span>
+                </dd>
+                <dt><span>Y 2</span></dt>
+                <dd>
+                    <span>{{zone.y2}}</span>
+                </dd>
+                <dt><span>Camera</span></dt>
+                <dd>
+                    <div *ngIf="zone.camera">
+                        <a [routerLink]="['/camera', zone.camera?.id, 'view']">{{zone.camera?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/zone', zone.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

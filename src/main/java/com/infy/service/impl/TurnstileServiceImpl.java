@@ -3,18 +3,14 @@ package com.infy.service.impl;
 import com.infy.service.TurnstileService;
 import com.infy.domain.Turnstile;
 import com.infy.repository.TurnstileRepository;
-import com.infy.service.dto.TurnstileDTO;
-import com.infy.service.mapper.TurnstileMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link Turnstile}.
@@ -27,25 +23,20 @@ public class TurnstileServiceImpl implements TurnstileService {
 
     private final TurnstileRepository turnstileRepository;
 
-    private final TurnstileMapper turnstileMapper;
-
-    public TurnstileServiceImpl(TurnstileRepository turnstileRepository, TurnstileMapper turnstileMapper) {
+    public TurnstileServiceImpl(TurnstileRepository turnstileRepository) {
         this.turnstileRepository = turnstileRepository;
-        this.turnstileMapper = turnstileMapper;
     }
 
     /**
      * Save a turnstile.
      *
-     * @param turnstileDTO the entity to save.
+     * @param turnstile the entity to save.
      * @return the persisted entity.
      */
     @Override
-    public TurnstileDTO save(TurnstileDTO turnstileDTO) {
-        log.debug("Request to save Turnstile : {}", turnstileDTO);
-        Turnstile turnstile = turnstileMapper.toEntity(turnstileDTO);
-        turnstile = turnstileRepository.save(turnstile);
-        return turnstileMapper.toDto(turnstile);
+    public Turnstile save(Turnstile turnstile) {
+        log.debug("Request to save Turnstile : {}", turnstile);
+        return turnstileRepository.save(turnstile);
     }
 
     /**
@@ -55,11 +46,9 @@ public class TurnstileServiceImpl implements TurnstileService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<TurnstileDTO> findAll() {
+    public List<Turnstile> findAll() {
         log.debug("Request to get all Turnstiles");
-        return turnstileRepository.findAll().stream()
-            .map(turnstileMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
+        return turnstileRepository.findAll();
     }
 
 
@@ -71,10 +60,9 @@ public class TurnstileServiceImpl implements TurnstileService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Optional<TurnstileDTO> findOne(Long id) {
+    public Optional<Turnstile> findOne(Long id) {
         log.debug("Request to get Turnstile : {}", id);
-        return turnstileRepository.findById(id)
-            .map(turnstileMapper::toDto);
+        return turnstileRepository.findById(id);
     }
 
     /**

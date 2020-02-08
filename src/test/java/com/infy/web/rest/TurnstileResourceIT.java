@@ -4,8 +4,6 @@ import com.infy.OpenhackApp;
 import com.infy.domain.Turnstile;
 import com.infy.repository.TurnstileRepository;
 import com.infy.service.TurnstileService;
-import com.infy.service.dto.TurnstileDTO;
-import com.infy.service.mapper.TurnstileMapper;
 import com.infy.web.rest.errors.ExceptionTranslator;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -56,9 +54,6 @@ public class TurnstileResourceIT {
 
     @Autowired
     private TurnstileRepository turnstileRepository;
-
-    @Autowired
-    private TurnstileMapper turnstileMapper;
 
     @Autowired
     private TurnstileService turnstileService;
@@ -136,10 +131,9 @@ public class TurnstileResourceIT {
         int databaseSizeBeforeCreate = turnstileRepository.findAll().size();
 
         // Create the Turnstile
-        TurnstileDTO turnstileDTO = turnstileMapper.toDto(turnstile);
         restTurnstileMockMvc.perform(post("/api/turnstiles")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(turnstileDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(turnstile)))
             .andExpect(status().isCreated());
 
         // Validate the Turnstile in the database
@@ -160,12 +154,11 @@ public class TurnstileResourceIT {
 
         // Create the Turnstile with an existing ID
         turnstile.setId(1L);
-        TurnstileDTO turnstileDTO = turnstileMapper.toDto(turnstile);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restTurnstileMockMvc.perform(post("/api/turnstiles")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(turnstileDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(turnstile)))
             .andExpect(status().isBadRequest());
 
         // Validate the Turnstile in the database
@@ -182,11 +175,10 @@ public class TurnstileResourceIT {
         turnstile.setIdentifier(null);
 
         // Create the Turnstile, which fails.
-        TurnstileDTO turnstileDTO = turnstileMapper.toDto(turnstile);
 
         restTurnstileMockMvc.perform(post("/api/turnstiles")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(turnstileDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(turnstile)))
             .andExpect(status().isBadRequest());
 
         List<Turnstile> turnstileList = turnstileRepository.findAll();
@@ -201,11 +193,10 @@ public class TurnstileResourceIT {
         turnstile.setTurnstileId(null);
 
         // Create the Turnstile, which fails.
-        TurnstileDTO turnstileDTO = turnstileMapper.toDto(turnstile);
 
         restTurnstileMockMvc.perform(post("/api/turnstiles")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(turnstileDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(turnstile)))
             .andExpect(status().isBadRequest());
 
         List<Turnstile> turnstileList = turnstileRepository.findAll();
@@ -220,11 +211,10 @@ public class TurnstileResourceIT {
         turnstile.setAndroidThingsInId(null);
 
         // Create the Turnstile, which fails.
-        TurnstileDTO turnstileDTO = turnstileMapper.toDto(turnstile);
 
         restTurnstileMockMvc.perform(post("/api/turnstiles")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(turnstileDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(turnstile)))
             .andExpect(status().isBadRequest());
 
         List<Turnstile> turnstileList = turnstileRepository.findAll();
@@ -239,11 +229,10 @@ public class TurnstileResourceIT {
         turnstile.setAndroidThingsOutId(null);
 
         // Create the Turnstile, which fails.
-        TurnstileDTO turnstileDTO = turnstileMapper.toDto(turnstile);
 
         restTurnstileMockMvc.perform(post("/api/turnstiles")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(turnstileDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(turnstile)))
             .andExpect(status().isBadRequest());
 
         List<Turnstile> turnstileList = turnstileRepository.findAll();
@@ -258,11 +247,10 @@ public class TurnstileResourceIT {
         turnstile.setCreated(null);
 
         // Create the Turnstile, which fails.
-        TurnstileDTO turnstileDTO = turnstileMapper.toDto(turnstile);
 
         restTurnstileMockMvc.perform(post("/api/turnstiles")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(turnstileDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(turnstile)))
             .andExpect(status().isBadRequest());
 
         List<Turnstile> turnstileList = turnstileRepository.findAll();
@@ -317,7 +305,7 @@ public class TurnstileResourceIT {
     @Transactional
     public void updateTurnstile() throws Exception {
         // Initialize the database
-        turnstileRepository.saveAndFlush(turnstile);
+        turnstileService.save(turnstile);
 
         int databaseSizeBeforeUpdate = turnstileRepository.findAll().size();
 
@@ -331,11 +319,10 @@ public class TurnstileResourceIT {
             .androidThingsInId(UPDATED_ANDROID_THINGS_IN_ID)
             .androidThingsOutId(UPDATED_ANDROID_THINGS_OUT_ID)
             .created(UPDATED_CREATED);
-        TurnstileDTO turnstileDTO = turnstileMapper.toDto(updatedTurnstile);
 
         restTurnstileMockMvc.perform(put("/api/turnstiles")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(turnstileDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(updatedTurnstile)))
             .andExpect(status().isOk());
 
         // Validate the Turnstile in the database
@@ -355,12 +342,11 @@ public class TurnstileResourceIT {
         int databaseSizeBeforeUpdate = turnstileRepository.findAll().size();
 
         // Create the Turnstile
-        TurnstileDTO turnstileDTO = turnstileMapper.toDto(turnstile);
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restTurnstileMockMvc.perform(put("/api/turnstiles")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(turnstileDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(turnstile)))
             .andExpect(status().isBadRequest());
 
         // Validate the Turnstile in the database
@@ -372,7 +358,7 @@ public class TurnstileResourceIT {
     @Transactional
     public void deleteTurnstile() throws Exception {
         // Initialize the database
-        turnstileRepository.saveAndFlush(turnstile);
+        turnstileService.save(turnstile);
 
         int databaseSizeBeforeDelete = turnstileRepository.findAll().size();
 
@@ -399,28 +385,5 @@ public class TurnstileResourceIT {
         assertThat(turnstile1).isNotEqualTo(turnstile2);
         turnstile1.setId(null);
         assertThat(turnstile1).isNotEqualTo(turnstile2);
-    }
-
-    @Test
-    @Transactional
-    public void dtoEqualsVerifier() throws Exception {
-        TestUtil.equalsVerifier(TurnstileDTO.class);
-        TurnstileDTO turnstileDTO1 = new TurnstileDTO();
-        turnstileDTO1.setId(1L);
-        TurnstileDTO turnstileDTO2 = new TurnstileDTO();
-        assertThat(turnstileDTO1).isNotEqualTo(turnstileDTO2);
-        turnstileDTO2.setId(turnstileDTO1.getId());
-        assertThat(turnstileDTO1).isEqualTo(turnstileDTO2);
-        turnstileDTO2.setId(2L);
-        assertThat(turnstileDTO1).isNotEqualTo(turnstileDTO2);
-        turnstileDTO1.setId(null);
-        assertThat(turnstileDTO1).isNotEqualTo(turnstileDTO2);
-    }
-
-    @Test
-    @Transactional
-    public void testEntityFromId() {
-        assertThat(turnstileMapper.fromId(42L).getId()).isEqualTo(42);
-        assertThat(turnstileMapper.fromId(null)).isNull();
     }
 }

@@ -1,29 +1,29 @@
 package com.infy.service;
 
-import com.infy.service.dto.TurnstileDTO;
+import com.infy.domain.Turnstile;
 
 import java.util.List;
 import java.util.Optional;
 
 /**
- * Service Interface for managing {@link com.infy.domain.Turnstile}.
+ * Service Interface for managing {@link Turnstile}.
  */
 public interface TurnstileService {
 
     /**
      * Save a turnstile.
      *
-     * @param turnstileDTO the entity to save.
+     * @param turnstile the entity to save.
      * @return the persisted entity.
      */
-    TurnstileDTO save(TurnstileDTO turnstileDTO);
+    Turnstile save(Turnstile turnstile);
 
     /**
      * Get all the turnstiles.
      *
      * @return the list of entities.
      */
-    List<TurnstileDTO> findAll();
+    List<Turnstile> findAll();
 
 
     /**
@@ -32,7 +32,7 @@ public interface TurnstileService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    Optional<TurnstileDTO> findOne(Long id);
+    Optional<Turnstile> findOne(Long id);
 
     /**
      * Delete the "id" turnstile.
